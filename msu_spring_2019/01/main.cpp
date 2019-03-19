@@ -1,7 +1,7 @@
 #include "numbers.dat"
 #include <iostream>
 
-int foo(int v_1, int v_2)
+int search_pos_element(int v_1, int v_2)
 {
     int flag = 0;
     int flag_2 = 0;
@@ -24,16 +24,18 @@ int foo(int v_1, int v_2)
     return (flag * ch);
 }
 
-int	ft_is_prime(int nb)
+int ft_is_prime(int number)
 {
 	int n;
+    int sqrt_max_int;
 
+    sqrt_max_int = 46340;
 	n = 2;
-	if (nb <= 1)
+	if (number <= 1)
 		return (0);
-	while ((n * n <= nb) && (n < 46340))
+	while ((n * n <= number) && (n < sqrt_max_int))
 	{
-		if (nb % n == 0)
+		if (number % n == 0)
 		{
 			return (0);
 		}
@@ -58,10 +60,10 @@ int main(int argc, char* argv[])
         int v_1 = std::atoi(argv[i]);
         i++;
         int v_2 = std::atoi(argv[i]);
-        first_ind = foo(v_1, v_2);
+        first_ind = search_pos_element(v_1, v_2);
         if ((first_ind == 0) && (v_1 != Data[0]))
         {
-            printf("0 \n");
+            std::cout << "0 \n";
             return(0);
         }
         for (int j = first_ind; j < Size; j++)
@@ -78,7 +80,7 @@ int main(int argc, char* argv[])
             if (ft_is_prime(Data[j]) == 1)
                 count++;
         }
-        printf("%d\n", count);
+        std::cout << count << "\n";
     }
     return 0;
 }
