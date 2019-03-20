@@ -25,23 +25,23 @@ int search_pos_element(int v_1, int v_2)
 }
 
 int ft_is_prime(int number)
-{
-	int n;
+{	
+    int n;
     int sqrt_max_int;
 
     sqrt_max_int = 46340;
-	n = 2;
-	if (number <= 1)
-		return (0);
-	while ((n * n <= number) && (n < sqrt_max_int))
+    n = 2;
+    if (number <= 1)
+	return (0);
+    while ((n * n <= number) && (n < sqrt_max_int))
+    {
+        if (number % n == 0)
 	{
-		if (number % n == 0)
-		{
-			return (0);
-		}
-		n++;
+	    return (0);
 	}
-	return (1);
+	n++;
+    }
+    return (1);
 }
 
 
