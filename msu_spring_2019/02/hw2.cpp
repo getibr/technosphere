@@ -69,7 +69,7 @@ int main(int argc, char **argv)
     }
     try 
     {
-        std::cout << /*Calculator().*/Result(argv[1]) << std::endl;
+        std::cout << Result(argv[1]) << std::endl;
     }
     catch (std::invalid_argument&)
     {
