@@ -2,67 +2,63 @@
 #include <iostream>
 
 
-class Calculator
+int64_t number(std::istringstream &expr)
 {
-public:
-    int64_t Result(const char* str) 
-    {
-        std::istringstream expr(str);
-        return add_sub(expr);
-    }
-private:
-    int64_t add_sub(std::istringstream &expr)
-    {
-        int64_t right, left = div_mul(expr);
-        char oper;
-        while (expr >> oper)
-        {
-            right = div_mul(expr);
-            if (oper == '+')
-                left += right;
-            if (oper == '-')
-                left -= right;
-        }
-        return left;
-    }
+    char sign;
+    int64_t number_sign = 1;
+    if (!(expr >> sign))
+        throw std::invalid_argument("");
+    if (sign == '-')
+        number_sign = -1;
+    else 
+        expr.putback(sign);
+    int64_t number = 0;
+    if (!(expr >> number))
+        throw std::invalid_argument("");
+    return (number * number_sign);
+}
 
-    int64_t div_mul(std::istringstream &expr)
+int64_t div_mul(std::istringstream &expr)
+{
+    int64_t right, left = number(expr);
+    char oper;
+    while (expr >> oper && (oper == '*' || oper == '/'))
     {
-        int64_t right, left = number(expr);
-        char oper;
-        while (expr >> oper && (oper == '*' || oper == '/'))
+        right = div_mul(expr);
+        if (oper == '*') 
+            left *= right;
+        if (oper == '/')
         {
-            right = div_mul(expr);
-            if (oper == '*') 
-                left *= right;
-            if (oper == '/')
-            {
-                if (right == 0) 
-                    throw std::invalid_argument("");
-                left /= right;
-            }
+            if (right == 0) 
+                throw std::invalid_argument("");
+            left /= right;
         }
-        if (expr)
-            expr.putback(oper);
-        return left;
     }
+    if (expr)
+        expr.putback(oper);
+    return left;
+}
 
-    int64_t number(std::istringstream &expr)
+int64_t add_sub(std::istringstream &expr)
+{
+    int64_t right, left = div_mul(expr);
+    char oper;
+    while (expr >> oper)
     {
-        char znak;
-        int64_t znak_chisla = 1;
-        if (!(expr >> znak))
-            throw std::invalid_argument("");
-        if (znak == '-')
-            znak_chisla = -1;
-        else 
-            expr.putback(znak);
-        int64_t number = 0;
-        if (!(expr >> number))
-            throw std::invalid_argument("");
-        return (number * znak_chisla);
+        right = div_mul(expr);
+        if (oper == '+')
+            left += right;
+        if (oper == '-')
+            left -= right;
     }
-};
+    return left;
+}
+
+int64_t Result(const char* str) 
+{
+    std::istringstream expr(str);
+    return add_sub(expr);
+}
 
 int main(int argc, char **argv)
 {
@@ -73,7 +69,7 @@ int main(int argc, char **argv)
     }
     try 
     {
-        std::cout << Calculator().Result(argv[1]) << std::endl;
+        std::cout << /*Calculator().*/Result(argv[1]) << std::endl;
     }
     catch (std::invalid_argument&)
     {
