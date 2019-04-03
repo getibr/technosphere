@@ -51,11 +51,11 @@ public:
            throw std::out_of_range("");
     }
 
-    int getRows()
+    size_t getRows()
     {
         return (rows);
     }
-    int getColumns()
+    size_t getColumns()
     {
         return (cols);
     }
