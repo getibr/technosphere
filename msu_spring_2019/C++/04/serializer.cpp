@@ -34,7 +34,7 @@ private:
     template <class T, class... Args>
     Error process(T&& value, Args&&... args)
     {
-        if(process(value) == Error::NoError)
+        if(process(std::forward<Args>(value)...) == Error::NoError)
             return process(std::forward<Args>(args)...);
         else
             return Error::CorruptedArchive;
@@ -86,7 +86,7 @@ private:
     template <class T, class... Args>
     Error process(T&& value, Args&&... args)
     {
-        if(process(value) == Error::NoError)
+        if(process(std::forward<Args>(value)...) == Error::NoError)
             return process(std::forward<Args>(args)...);
         else
             return Error::CorruptedArchive;
